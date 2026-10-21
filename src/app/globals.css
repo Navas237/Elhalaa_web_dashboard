@@ -1,26 +1,114 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-primary-border: var(--primary-border);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-warning: var(--warning);
+  --color-warning-light: var(--warning-light);
+  --color-error: var(--error);
+  --color-error-light: var(--error-light);
+  --color-info: var(--info);
+  --color-info-light: var(--info-light);
+
+  --color-teal: var(--teal);
+  --color-teal-light: var(--teal-light);
+  --color-teal-dark: var(--teal-dark);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* Primary — Red */
+  --primary:          #E8192C;
+  --primary-foreground: #FFFFFF;
+  --primary-dark:     #C0102A;
+  --primary-light:    #FDECEA;
+  --primary-border:   #F5A3AA;
+
+  /* Teal */
+  --teal:             #5EC8C0;
+  --teal-light:       #E8F8F7;
+  --teal-dark:        #2FA8A0;
+
+  /* Neutrals */
+  --background:       #F7F8FA;
+  --foreground:       #1A1D2E;
+  --card:             #FFFFFF;
+  --card-foreground:  #1A1D2E;
+  --popover:          #FFFFFF;
+  --popover-foreground: #1A1D2E;
+  --border:           #E2E4E8;
+  --input:            #F7F8FA;
+  --ring:             #E8192C;
+  --muted:            #F0F1F3;
+  --muted-foreground: #9EA3AE;
+  --secondary:        #F0F1F3;
+  --secondary-foreground: #5A5F6B;
+  --accent:           #F0F1F3;
+  --accent-foreground: #2D3142;
+
+  /* Semantic */
+  --success:          #1A7A35;
+  --success-light:    #EAF3DE;
+  --warning:          #E65100;
+  --warning-light:    #FFF3E0;
+  --error:            #DC2626;
+  --error-light:      #FEF2F2;
+  --destructive:      #DC2626;
+  --info:             #5EC8C0;
+  --info-light:       #E8F8F7;
+
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }

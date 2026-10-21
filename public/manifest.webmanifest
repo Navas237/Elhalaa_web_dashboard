@@ -1,0 +1,20 @@
+{
+  "id": "/barber/timeline",
+  "name": "مشمش - Mishmish",
+  "short_name": "مشمش",
+  "description": "نظام مشمش لإدارة صالونات الحلاقة والحجوزات",
+  "start_url": "/barber/timeline",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#e8192c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

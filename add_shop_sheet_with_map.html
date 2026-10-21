@@ -1,0 +1,111 @@
+<div style="min-height:560px; background:rgba(26,29,46,0.5); display:flex; align-items:flex-end; justify-content:center; padding:0;">
+  <div id="sheet-view" style="background:#fff; border-radius:16px 16px 0 0; padding:20px; width:100%; max-width:380px;">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+      <p style="font-size:16px; font-weight:500; color:#1A1D2E; margin:0;">إضافة فرع جديد</p>
+      <i class="ti ti-x" style="font-size:20px; color:#5A5F6B; cursor:pointer;" aria-hidden="true"></i>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:14px;">
+
+      <div>
+        <p style="font-size:12px; color:#9EA3AE; margin:0 0 6px;">اسم الفرع</p>
+        <input type="text" placeholder="مثال: فرع المعادي" style="width:100%; box-sizing:border-box; padding:10px 12px; border-radius:8px; border:0.5px solid #E2E4E8; font-size:14px; color:#1A1D2E; background:#F7F8FA;" />
+      </div>
+
+      <div>
+        <p style="font-size:12px; color:#9EA3AE; margin:0 0 6px;">الموقع</p>
+        <div onclick="openMap()" style="display:flex; align-items:center; justify-content:space-between; padding:12px; border-radius:8px; border:0.5px solid #E2E4E8; background:#F7F8FA; cursor:pointer;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <i class="ti ti-map-pin" style="font-size:16px; color:#9EA3AE;" aria-hidden="true"></i>
+            <span id="address-label" style="font-size:13px; color:#9EA3AE;">اختر الموقع من الخريطة</span>
+          </div>
+          <i class="ti ti-chevron-left" style="font-size:16px; color:#9EA3AE;" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div style="background:#E8F8F7; border:0.5px solid #5EC8C0; border-radius:8px; padding:9px 11px;">
+        <p style="font-size:11px; color:#2FA8A0; margin:0;">
+          <i class="ti ti-info-circle" style="font-size:12px;" aria-hidden="true"></i>
+          العنوان والـ latitude/longitude بيتسجلوا تلقائياً من تحديدك على الخريطة
+        </p>
+      </div>
+
+      <button onclick="saveShop()" style="width:100%; padding:13px; border-radius:10px; background:#E8192C; color:#fff; border:none; font-size:14px; font-weight:500; cursor:pointer; margin-top:6px;">
+        حفظ الفرع
+      </button>
+    </div>
+  </div>
+
+  <div id="map-view" style="display:none; background:#fff; border-radius:16px 16px 0 0; padding:0; width:100%; max-width:380px; position:absolute; bottom:0;">
+    <div style="padding:14px 16px; display:flex; align-items:center; gap:10px; border-bottom:0.5px solid #E2E4E8;">
+      <i class="ti ti-arrow-right" onclick="closeMap()" style="font-size:20px; color:#5A5F6B; cursor:pointer;" aria-hidden="true"></i>
+      <p style="font-size:15px; font-weight:500; color:#1A1D2E; margin:0;">اختر موقع الفرع</p>
+    </div>
+
+    <div style="padding:12px 16px;">
+      <div style="display:flex; align-items:center; gap:8px; background:#F7F8FA; border:0.5px solid #E2E4E8; border-radius:8px; padding:9px 12px;">
+        <i class="ti ti-search" style="font-size:16px; color:#9EA3AE;" aria-hidden="true"></i>
+        <input id="map-search" type="text" placeholder="ابحث عن شارع أو منطقة..." style="flex:1; border:none; background:transparent; outline:none; font-size:13px; color:#1A1D2E;" />
+      </div>
+    </div>
+
+    <div id="search-results" style="padding:0 16px; display:none; flex-direction:column; gap:6px; max-height:140px; overflow-y:auto;"></div>
+
+    <div style="position:relative; height:240px; background:#E2E4E8; margin:0 16px 14px; border-radius:10px; overflow:hidden;">
+      <div style="position:absolute; inset:0; background:repeating-linear-gradient(0deg, #E8F8F7 0, #E8F8F7 1px, transparent 1px, transparent 24px), repeating-linear-gradient(90deg, #E8F8F7 0, #E8F8F7 1px, transparent 1px, transparent 24px); background-color:#F0F1F3;"></div>
+      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-100%);">
+        <i class="ti ti-map-pin-filled" style="font-size:34px; color:#E8192C;" aria-hidden="true"></i>
+      </div>
+      <p style="position:absolute; bottom:8px; right:8px; font-size:10px; color:#9EA3AE; background:#fff; padding:3px 7px; border-radius:6px;">حرّك الخريطة لتحديد الموقع بدقة</p>
+    </div>
+
+    <div style="padding:0 16px 16px;">
+      <button onclick="confirmLocation()" style="width:100%; padding:12px; border-radius:10px; background:#E8192C; color:#fff; border:none; font-size:14px; font-weight:500; cursor:pointer;">
+        تأكيد هذا الموقع
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const fakeResults = [
+  'شارع التسعين، القاهرة الجديدة',
+  'شارع عزبة ابو سالم، كفر الشيخ',
+  'ميدان المعادي، المعادي',
+];
+
+function openMap() {
+  document.getElementById('sheet-view').style.display = 'none';
+  document.getElementById('map-view').style.display = 'block';
+}
+
+function closeMap() {
+  document.getElementById('map-view').style.display = 'none';
+  document.getElementById('sheet-view').style.display = 'block';
+}
+
+function confirmLocation() {
+  document.getElementById('address-label').textContent = 'شارع التسعين، القاهرة الجديدة';
+  document.getElementById('address-label').style.color = '#1A1D2E';
+  closeMap();
+}
+
+function saveShop() {
+  alert('سيتم حفظ الفرع');
+}
+
+document.getElementById('map-search').addEventListener('input', function(e) {
+  const val = e.target.value.trim();
+  const box = document.getElementById('search-results');
+  if (!val) { box.style.display = 'none'; box.innerHTML = ''; return; }
+  const matches = fakeResults.filter(r => r.includes(val) || true);
+  box.style.display = 'flex';
+  box.innerHTML = matches.map(r => `
+    <div onclick="document.getElementById('map-search').value='${r}'; document.getElementById('search-results').style.display='none';" style="display:flex; align-items:center; gap:8px; padding:8px 4px; cursor:pointer; border-bottom:0.5px solid #F0F1F3;">
+      <i class="ti ti-map-pin" style="font-size:14px; color:#9EA3AE;" aria-hidden="true"></i>
+      <span style="font-size:12px; color:#2D3142;">${r}</span>
+    </div>
+  `).join('');
+});
+</script>

@@ -1,0 +1,109 @@
+
+<div style="max-width:380px; margin:0 auto; background:#F7F8FA; min-height:100vh; display:flex; flex-direction:column; font-family:var(--font-sans); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden;">
+
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; padding:32px 24px;">
+    
+    <div style="text-align:center; margin-bottom:40px;">
+      <div style="width:64px; height:64px; border-radius:16px; background:#E8192C; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+        <i class="ti ti-scissors" style="font-size:32px; color:#fff;" aria-hidden="true"></i>
+      </div>
+      <h1 style="font-size:24px; font-weight:600; color:#1A1D2E; margin:0 0 8px;">مرحباً بك</h1>
+      <p style="font-size:14px; color:#9EA3AE; margin:0;">سجل دخولك لإدارة محلك</p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:16px; margin-bottom:24px;">
+      
+      <div>
+        <label style="font-size:13px; font-weight:500; color:#2D3142; display:block; margin-bottom:6px;">البريد الإلكتروني</label>
+        <div id="email-input" onclick="focusInput('email')" style="background:#fff; border:1.5px solid #E2E4E8; border-radius:10px; padding:12px 14px; display:flex; align-items:center; gap:10px; cursor:text; transition:border 0.2s;">
+          <i class="ti ti-mail" style="font-size:18px; color:#9EA3AE;" aria-hidden="true"></i>
+          <span id="email-placeholder" style="font-size:14px; color:#9EA3AE;">example@email.com</span>
+        </div>
+      </div>
+
+      <div>
+        <label style="font-size:13px; font-weight:500; color:#2D3142; display:block; margin-bottom:6px;">كلمة المرور</label>
+        <div id="pass-input" onclick="focusInput('pass')" style="background:#fff; border:1.5px solid #E2E4E8; border-radius:10px; padding:12px 14px; display:flex; align-items:center; gap:10px; cursor:text; transition:border 0.2s;">
+          <i class="ti ti-lock" style="font-size:18px; color:#9EA3AE;" aria-hidden="true"></i>
+          <span id="pass-placeholder" style="font-size:14px; color:#9EA3AE; flex:1;">••••••••</span>
+          <i class="ti ti-eye" style="font-size:18px; color:#9EA3AE;" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div id="error-msg" style="display:none; background:#FDECEA; border:0.5px solid #F5A3AA; border-radius:8px; padding:10px 12px; display:flex; align-items:center; gap:8px;">
+        <i class="ti ti-alert-circle" style="font-size:16px; color:#E8192C;" aria-hidden="true"></i>
+        <span style="font-size:13px; color:#E8192C;">البريد أو كلمة المرور غلط</span>
+      </div>
+
+    </div>
+
+    <button id="login-btn" onclick="handleLogin()" style="width:100%; padding:14px; border-radius:12px; background:#E8192C; color:#fff; border:none; font-size:15px; font-weight:500; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
+      <span id="btn-text">تسجيل الدخول</span>
+    </button>
+
+    <div style="text-align:center;">
+      <span style="font-size:13px; color:#9EA3AE;">نسيت كلمة المرور؟ </span>
+      <span style="font-size:13px; color:#E8192C; font-weight:500; cursor:pointer;">استعادة الحساب</span>
+    </div>
+
+  </div>
+
+  <div style="padding:16px 24px 32px; text-align:center;">
+    <p style="font-size:12px; color:#9EA3AE; margin:0;">مشمش - Mishmish v1.0</p>
+  </div>
+
+</div>
+
+<script>
+let activeInput = null;
+let loginState = 'idle';
+
+function focusInput(type) {
+  if (activeInput === type) return;
+  activeInput = type;
+  
+  document.getElementById('email-input').style.borderColor = type === 'email' ? '#E8192C' : '#E2E4E8';
+  document.getElementById('pass-input').style.borderColor = type === 'pass' ? '#E8192C' : '#E2E4E8';
+
+  if (type === 'email') {
+    document.getElementById('email-placeholder').textContent = 'ahmed@barbershop.com';
+    document.getElementById('email-placeholder').style.color = '#1A1D2E';
+  }
+  if (type === 'pass') {
+    document.getElementById('pass-placeholder').textContent = '••••••••••';
+    document.getElementById('pass-placeholder').style.color = '#1A1D2E';
+  }
+}
+
+function handleLogin() {
+  if (loginState === 'loading') return;
+  loginState = 'loading';
+
+  const btn = document.getElementById('login-btn');
+  const btnText = document.getElementById('btn-text');
+  const errorMsg = document.getElementById('error-msg');
+
+  errorMsg.style.display = 'none';
+  btn.style.opacity = '0.8';
+  btnText.textContent = 'جاري الدخول...';
+
+  setTimeout(() => {
+    loginState = 'error';
+    btn.style.opacity = '1';
+    btnText.textContent = 'تسجيل الدخول';
+    errorMsg.style.display = 'flex';
+
+    document.getElementById('email-input').style.borderColor = '#E8192C';
+    document.getElementById('pass-input').style.borderColor = '#E8192C';
+
+    setTimeout(() => {
+      loginState = 'success';
+      errorMsg.style.display = 'none';
+      btn.style.background = '#1A7A35';
+      btnText.textContent = '✓ تم الدخول — جاري التحويل...';
+      document.getElementById('email-input').style.borderColor = '#1A7A35';
+      document.getElementById('pass-input').style.borderColor = '#1A7A35';
+    }, 2000);
+  }, 1500);
+}
+</script>

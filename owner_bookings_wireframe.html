@@ -1,0 +1,211 @@
+
+<div style="max-width:380px; margin:0 auto; background:#F7F8FA; min-height:100vh; display:flex; flex-direction:column; font-family:var(--font-sans); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden;">
+
+  <div style="background:#fff; padding:16px; display:flex; justify-content:space-between; align-items:center; border-bottom:0.5px solid #E2E4E8;">
+    <p style="font-size:18px; font-weight:500; color:#1A1D2E; margin:0;">الحجوزات</p>
+    <button onclick="this.style.background='#FDECEA'" style="background:#E8192C; color:#fff; border:none; border-radius:8px; padding:8px 14px; font-size:13px; display:flex; align-items:center; gap:6px; cursor:pointer;">
+      <i class="ti ti-plus" style="font-size:15px;" aria-hidden="true"></i> حجز جديد
+    </button>
+  </div>
+
+  <div style="background:#fff; padding:10px 16px; border-bottom:0.5px solid #E2E4E8; display:flex; gap:8px; overflow-x:auto;">
+    <span id="f-all" onclick="filterBookings('all')" style="padding:6px 14px; border-radius:20px; font-size:12px; background:#E8192C; color:#fff; cursor:pointer; white-space:nowrap;">الكل</span>
+    <span id="f-pending" onclick="filterBookings('pending')" style="padding:6px 14px; border-radius:20px; font-size:12px; background:#F0F1F3; color:#5A5F6B; cursor:pointer; white-space:nowrap;">معلق</span>
+    <span id="f-confirmed" onclick="filterBookings('confirmed')" style="padding:6px 14px; border-radius:20px; font-size:12px; background:#F0F1F3; color:#5A5F6B; cursor:pointer; white-space:nowrap;">مؤكد</span>
+    <span id="f-waiting" onclick="filterBookings('waiting')" style="padding:6px 14px; border-radius:20px; font-size:12px; background:#F0F1F3; color:#5A5F6B; cursor:pointer; white-space:nowrap;">انتظار</span>
+    <span id="f-completed" onclick="filterBookings('completed')" style="padding:6px 14px; border-radius:20px; font-size:12px; background:#F0F1F3; color:#5A5F6B; cursor:pointer; white-space:nowrap;">منتهي</span>
+    <span id="f-cancelled" onclick="filterBookings('cancelled')" style="padding:6px 14px; border-radius:20px; font-size:12px; background:#F0F1F3; color:#5A5F6B; cursor:pointer; white-space:nowrap;">ملغي</span>
+  </div>
+
+  <div style="padding:12px 16px; display:flex; gap:8px;">
+    <div style="flex:1; background:#fff; border:0.5px solid #E2E4E8; border-radius:8px; display:flex; align-items:center; gap:8px; padding:8px 12px;">
+      <i class="ti ti-search" style="font-size:16px; color:#9EA3AE;" aria-hidden="true"></i>
+      <span style="font-size:13px; color:#9EA3AE;">ابحث باسم العميل أو الحلاق</span>
+    </div>
+    <div style="background:#fff; border:0.5px solid #E2E4E8; border-radius:8px; padding:8px 10px; display:flex; align-items:center;">
+      <i class="ti ti-calendar" style="font-size:18px; color:#5A5F6B;" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div id="bookings-list" style="padding:0 16px; display:flex; flex-direction:column; gap:10px; flex:1; overflow-y:auto;">
+  </div>
+
+  <div id="booking-modal" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(26,29,46,0.5); z-index:10; align-items:flex-end; justify-content:center;">
+    <div style="background:#fff; border-radius:16px 16px 0 0; padding:20px; width:100%; max-width:380px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <p style="font-size:16px; font-weight:500; color:#1A1D2E; margin:0;">تفاصيل الحجز</p>
+        <i class="ti ti-x" onclick="closeModal()" style="font-size:20px; color:#5A5F6B; cursor:pointer;" aria-hidden="true"></i>
+      </div>
+
+      <div style="background:#F7F8FA; border-radius:10px; padding:14px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-size:12px; color:#9EA3AE;">العميل</span>
+          <span style="font-size:13px; font-weight:500; color:#1A1D2E;" id="modal-client">محمد علي</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-size:12px; color:#9EA3AE;">الخدمة</span>
+          <span style="font-size:13px; color:#2D3142;" id="modal-service">قص + لحية</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-size:12px; color:#9EA3AE;">الحلاق</span>
+          <span style="font-size:13px; color:#2D3142;" id="modal-barber">كريم أحمد</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-size:12px; color:#9EA3AE;">الوقت</span>
+          <span style="font-size:13px; color:#2D3142;" id="modal-time">10:30 ص</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-size:12px; color:#9EA3AE;">المدة</span>
+          <span style="font-size:13px; color:#2D3142;">45 دقيقة</span>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="font-size:12px; color:#9EA3AE;">السعر</span>
+          <span style="font-size:13px; font-weight:500; color:#1A1D2E;">150 جنيه</span>
+        </div>
+      </div>
+
+      <div style="background:#F7F8FA; border-radius:10px; padding:14px; margin-bottom:16px;">
+        <p style="font-size:12px; color:#9EA3AE; margin:0 0 6px;">الحالة الحالية</p>
+        <span id="modal-status-badge" style="font-size:12px; background:#FFF3E0; color:#E65100; padding:4px 10px; border-radius:6px;">انتظار</span>
+      </div>
+
+      <div id="modal-actions" style="display:flex; flex-direction:column; gap:8px;"></div>
+    </div>
+  </div>
+
+  <div style="background:#fff; border-top:0.5px solid #E2E4E8; padding:10px 0 6px; display:grid; grid-template-columns:repeat(4, 1fr);">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+      <i class="ti ti-home" style="font-size:22px; color:#9EA3AE;" aria-hidden="true"></i>
+      <span style="font-size:10px; color:#9EA3AE;">الرئيسية</span>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+      <i class="ti ti-calendar" style="font-size:22px; color:#E8192C;" aria-hidden="true"></i>
+      <span style="font-size:10px; color:#E8192C; font-weight:500;">الحجوزات</span>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+      <i class="ti ti-layout-grid" style="font-size:22px; color:#9EA3AE;" aria-hidden="true"></i>
+      <span style="font-size:10px; color:#9EA3AE;">إدارة</span>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:3px;">
+      <i class="ti ti-settings" style="font-size:22px; color:#9EA3AE;" aria-hidden="true"></i>
+      <span style="font-size:10px; color:#9EA3AE;">الإعدادات</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const bookings = [
+  { id:1, client:'محمد علي', service:'قص + لحية', barber:'كريم أحمد', time:'10:30 ص', status:'pending', phone:'01012345678' },
+  { id:2, client:'أحمد سامي', service:'قص شعر', barber:'سامي محمود', time:'11:00 ص', status:'confirmed', phone:'01098765432' },
+  { id:3, client:'عمر حسن', service:'لحية فقط', barber:'مازن علي', time:'11:30 ص', status:'waiting', phone:'01111111111' },
+  { id:4, client:'خالد إبراهيم', service:'قص + لحية', barber:'كريم أحمد', time:'12:00 م', status:'completed', phone:'01222222222' },
+  { id:5, client:'يوسف طارق', service:'قص شعر', barber:'علي حسن', time:'12:30 م', status:'cancelled', phone:'01333333333' },
+  { id:6, client:'مصطفى رامي', service:'لحية فقط', barber:'سامي محمود', time:'01:00 م', status:'pending', phone:'01444444444' },
+];
+
+const statusConfig = {
+  pending:   { label:'معلق',   bg:'#FDECEA', color:'#E8192C' },
+  confirmed: { label:'مؤكد',   bg:'#EAF3DE', color:'#1A7A35' },
+  waiting:   { label:'انتظار', bg:'#FFF3E0', color:'#E65100' },
+  completed: { label:'منتهي',  bg:'#E8F8F7', color:'#2FA8A0' },
+  cancelled: { label:'ملغي',   bg:'#F0F1F3', color:'#5A5F6B' },
+};
+
+const actions = {
+  pending:   [
+    { label:'تأكيد الحجز', bg:'#E8192C', color:'#fff', action:'confirm' },
+    { label:'إلغاء الحجز', bg:'#fff', color:'#E8192C', border:'#E8192C', action:'cancel' },
+  ],
+  confirmed: [
+    { label:'تحويل لانتظار', bg:'#E65100', color:'#fff', action:'waiting' },
+    { label:'إلغاء الحجز', bg:'#fff', color:'#E8192C', border:'#E8192C', action:'cancel' },
+  ],
+  waiting: [
+    { label:'تأكيد الوصول', bg:'#1A7A35', color:'#fff', action:'confirm' },
+    { label:'إلغاء الحجز', bg:'#fff', color:'#E8192C', border:'#E8192C', action:'cancel' },
+  ],
+  completed: [],
+  cancelled: [],
+};
+
+let currentFilter = 'all';
+let selectedBooking = null;
+
+function filterBookings(filter) {
+  currentFilter = filter;
+  ['all','pending','confirmed','waiting','completed','cancelled'].forEach(f => {
+    const el = document.getElementById('f-' + f);
+    if(el) { el.style.background = f === filter ? '#E8192C' : '#F0F1F3'; el.style.color = f === filter ? '#fff' : '#5A5F6B'; }
+  });
+  renderList();
+}
+
+function renderList() {
+  const list = document.getElementById('bookings-list');
+  const filtered = currentFilter === 'all' ? bookings : bookings.filter(b => b.status === currentFilter);
+  list.innerHTML = filtered.map(b => {
+    const s = statusConfig[b.status];
+    return `<div onclick="openModal(${b.id})" style="background:#fff; border-radius:12px; border:0.5px solid #E2E4E8; padding:14px; cursor:pointer; display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:36px; height:36px; border-radius:50%; background:#F0F1F3; display:flex; align-items:center; justify-content:center; font-size:12px; color:#5A5F6B;">${b.client.slice(0,2)}</div>
+          <div>
+            <p style="font-size:14px; font-weight:500; color:#1A1D2E; margin:0;">${b.client}</p>
+            <p style="font-size:11px; color:#9EA3AE; margin:0;">${b.service}</p>
+          </div>
+        </div>
+        <span style="font-size:11px; background:${s.bg}; color:${s.color}; padding:4px 10px; border-radius:6px;">${s.label}</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-top:0.5px solid #F0F1F3; padding-top:8px;">
+        <div style="display:flex; align-items:center; gap:5px;">
+          <i class="ti ti-clock" style="font-size:13px; color:#9EA3AE;" aria-hidden="true"></i>
+          <span style="font-size:12px; color:#5A5F6B;">${b.time}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:5px;">
+          <i class="ti ti-user" style="font-size:13px; color:#9EA3AE;" aria-hidden="true"></i>
+          <span style="font-size:12px; color:#5A5F6B;">${b.barber}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:5px;">
+          <i class="ti ti-phone" style="font-size:13px; color:#9EA3AE;" aria-hidden="true"></i>
+          <span style="font-size:12px; color:#5A5F6B;">${b.phone.slice(-4).padStart(b.phone.length,'*')}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(id) {
+  selectedBooking = bookings.find(b => b.id === id);
+  if(!selectedBooking) return;
+  const s = statusConfig[selectedBooking.status];
+  document.getElementById('modal-client').textContent = selectedBooking.client;
+  document.getElementById('modal-service').textContent = selectedBooking.service;
+  document.getElementById('modal-barber').textContent = selectedBooking.barber;
+  document.getElementById('modal-time').textContent = selectedBooking.time;
+  const badge = document.getElementById('modal-status-badge');
+  badge.textContent = s.label; badge.style.background = s.bg; badge.style.color = s.color;
+  const actionsEl = document.getElementById('modal-actions');
+  const btns = actions[selectedBooking.status] || [];
+  actionsEl.innerHTML = btns.length ? btns.map(a =>
+    `<button onclick="doAction('${a.action}')" style="width:100%; padding:12px; border-radius:10px; font-size:14px; font-weight:500; background:${a.bg}; color:${a.color}; border:${a.border ? '1px solid '+a.border : 'none'}; cursor:pointer;">${a.label}</button>`
+  ).join('') : `<p style="text-align:center; color:#9EA3AE; font-size:13px;">لا توجد إجراءات متاحة</p>`;
+  const modal = document.getElementById('booking-modal');
+  modal.style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('booking-modal').style.display = 'none';
+}
+
+function doAction(action) {
+  if(!selectedBooking) return;
+  const map = { confirm:'confirmed', cancel:'cancelled', waiting:'waiting' };
+  if(map[action]) {
+    selectedBooking.status = map[action];
+    closeModal();
+    renderList();
+  }
+}
+
+renderList();
+</script>
