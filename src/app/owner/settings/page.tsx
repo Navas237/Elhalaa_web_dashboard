@@ -122,7 +122,7 @@ export default function SettingsPage() {
         >
           <Button 
             variant="destructive" 
-            className="w-full h-14 rounded-2xl text-base font-bold bg-primary-light hover:bg-primary-light text-rose-600 border-0 shadow-none"
+            className="w-full h-14 rounded-2xl text-base font-bold bg-primary-light hover:bg-primary-light text-primary border-0 shadow-none"
             onClick={logout}
           >
             <LogOut className="w-5 h-5 ml-2" />

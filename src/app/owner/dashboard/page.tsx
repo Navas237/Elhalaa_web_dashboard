@@ -59,7 +59,7 @@ export default function OwnerDashboardPage() {
         </div>
         <div className="flex items-center gap-3">
           <NotificationBellButton />
-          <div className="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center text-[13px] font-semibold text-rose-600 border border-primary-light">
+          <div className="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center text-[13px] font-semibold text-primary border border-primary-light">
             {user?.name ? user.name.substring(0, 2) : 'أح'}
           </div>
         </div>

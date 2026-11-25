@@ -114,7 +114,7 @@ export function BottomNavigation() {
               }`}
             >
               <Icon 
-                className={`w-[22px] h-[22px] transition-all ${isActive ? 'fill-red-50 stroke-red-500' : 'stroke-slate-500'}`} 
+                className={`w-[22px] h-[22px] transition-all ${isActive ? 'fill-primary-light stroke-primary' : 'stroke-slate-500'}`} 
                 strokeWidth={isActive ? 2.2 : 2} 
               />
               <span className={`text-[11px] ${isActive ? 'font-bold' : 'font-medium'}`}>

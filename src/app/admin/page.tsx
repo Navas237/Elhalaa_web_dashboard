@@ -22,6 +22,10 @@ export default async function AdminDashboardPage() {
     `)
     .order('created_at', { ascending: false })
 
+  // Shop URL from the configured root domain (never a hard-coded localhost).
+  const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'localhost:3000'
+  const scheme = rootDomain.startsWith('localhost') ? 'http' : 'https'
+
   const totalTenants = tenants?.length || 0
   const activeTenants = tenants?.filter(t => t.is_active).length || 0
 
@@ -106,7 +110,7 @@ export default async function AdminDashboardPage() {
                       {tenant.name}
                     </td>
                     <td className="px-5 py-4 font-mono text-xs text-amber-400">
-                      {tenant.subdomain}.localhost:3000
+                      {tenant.subdomain}.{rootDomain}
                     </td>
                     <td className="px-5 py-4 text-slate-300">
                       {tenant.owner?.name || 'غير محدد'}
@@ -137,7 +141,7 @@ export default async function AdminDashboardPage() {
                     </td>
                     <td className="px-5 py-4 text-center">
                       <a
-                        href={`http://${tenant.subdomain}.localhost:3000`}
+                        href={`http://${tenant.subdomain}.{rootDomain}`}
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center justify-center p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"

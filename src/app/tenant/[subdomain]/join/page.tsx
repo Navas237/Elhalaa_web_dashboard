@@ -101,7 +101,7 @@ export default function BarberJoinPage() {
         ) : (
           <form onSubmit={handleRegister} className="flex flex-col gap-4">
             {error && (
-              <div className="p-3 rounded-xl bg-primary-light border border-primary-light text-rose-700 text-xs font-medium">
+              <div className="p-3 rounded-xl bg-primary-light border border-primary-light text-primary text-xs font-medium">
                 {error}
               </div>
             )}

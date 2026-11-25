@@ -182,7 +182,7 @@ export function SalonBrandingSettings({ ownerId }: { ownerId: string }) {
         )}
 
         {errorMessage && (
-          <div className="p-4 rounded-2xl bg-primary-light border border-primary-light text-rose-800 text-sm font-medium">
+          <div className="p-4 rounded-2xl bg-primary-light border border-primary-light text-primary text-sm font-medium">
             {errorMessage}
           </div>
         )}
