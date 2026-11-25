@@ -44,7 +44,11 @@ export function useAuth() {
       
       queryClient.setQueryData(['auth-user'], profile)
 
-      if (profile.role === 'owner' || profile.role === 'manager') {
+      const adminSub = process.env.NEXT_PUBLIC_ADMIN_SUBDOMAIN || 'hq-7m4x'
+      if (window.location.hostname.split('.')[0] === adminSub) {
+        // Platform admin host: the proxy serves /admin here, the server re-checks is_super_admin.
+        router.push('/')
+      } else if (profile.role === 'owner' || profile.role === 'manager') {
         router.push('/owner/dashboard')
       } else {
         router.push('/barber/timeline')

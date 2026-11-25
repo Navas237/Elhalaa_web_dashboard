@@ -1,5 +1,5 @@
 import React from 'react'
-import { redirect } from 'next/navigation'
+import { redirect, notFound } from 'next/navigation'
 import { createClient } from '@/shared/lib/supabase/server'
 import { Shield, LogOut } from 'lucide-react'
 import Link from 'next/link'
@@ -27,8 +27,8 @@ export default async function AdminLayout({
     .single()
 
   if (!profile?.is_super_admin) {
-    // ليس Super Admin — غير مصرح له
-    redirect('/')
+    // Not a super admin: behave as if the page does not exist.
+    notFound()
   }
 
   return (

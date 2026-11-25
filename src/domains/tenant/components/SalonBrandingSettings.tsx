@@ -21,7 +21,7 @@ import { getTenantByOwnerId, updateTenantBranding } from '../services/tenant.ser
 import type { Tenant } from '../types/tenant.types'
 
 const PRESET_COLORS = [
-  { name: 'أحمر أنيق', value: '#E8192C' },
+  { name: 'أحمر أنيق', value: '#2A1238' },
   { name: 'كحلي ملكي', value: '#1E3A8A' },
   { name: 'زمردي راقي', value: '#059669' },
   { name: 'ذهبي / برونزي', value: '#D97706' },
@@ -39,7 +39,7 @@ export function SalonBrandingSettings({ ownerId }: { ownerId: string }) {
   // Form fields
   const [salonName, setSalonName] = useState('')
   const [subdomain, setSubdomain] = useState('')
-  const [primaryColor, setPrimaryColor] = useState('#E8192C')
+  const [primaryColor, setPrimaryColor] = useState('#2A1238')
   const [logoUrl, setLogoUrl] = useState('')
   const [badgeText, setBadgeText] = useState('')
   const [heroTitle, setHeroTitle] = useState('')
@@ -57,7 +57,7 @@ export function SalonBrandingSettings({ ownerId }: { ownerId: string }) {
           setSalonName(t.name || '')
           setSubdomain(t.subdomain || '')
           const b = t.branding || ({} as any)
-          setPrimaryColor(b.primary_color || '#E8192C')
+          setPrimaryColor(b.primary_color || '#2A1238')
           setLogoUrl(b.logo_url || '')
           setBadgeText(b.badge_text || '')
           setHeroTitle(b.hero_title || 'احجز موعدك في')
@@ -182,7 +182,7 @@ export function SalonBrandingSettings({ ownerId }: { ownerId: string }) {
         )}
 
         {errorMessage && (
-          <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-medium">
+          <div className="p-4 rounded-2xl bg-primary-light border border-primary-light text-rose-800 text-sm font-medium">
             {errorMessage}
           </div>
         )}

@@ -60,7 +60,7 @@ export function BookingsFilter({ filters, onFiltersChange, counts, uniqueShops, 
             <div className="flex justify-between items-center">
               <SheetTitle className="text-lg font-bold">تصفية متقدمة</SheetTitle>
               {hasAdvancedFilters && (
-                <Button variant="ghost" size="sm" onClick={clearAdvancedFilters} className="text-red-500 h-8 px-2">
+                <Button variant="ghost" size="sm" onClick={clearAdvancedFilters} className="text-primary h-8 px-2">
                   مسح الكل
                 </Button>
               )}

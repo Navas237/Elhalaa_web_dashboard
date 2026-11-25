@@ -1,14 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist_Mono, Inter, Noto_Kufi_Arabic } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Providers from "./providers";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({subsets:['latin'],variable:'--font-inter-fallback'});
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const kufi = Noto_Kufi_Arabic({
+  variable: "--font-kufi",
+  subsets: ["arabic", "latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -38,7 +40,7 @@ export const viewport: Viewport = {
   // On Android Chrome the layout viewport shrinks when the keyboard opens,
   // so dvh-based bottom sheets stay above it instead of going underneath.
   interactiveWidget: "resizes-content",
-  themeColor: "#E8192C",
+  themeColor: "#2A1238",
 };
 
 export default function RootLayout({
@@ -50,7 +52,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
+      className={cn("h-full", "antialiased", kufi.variable, geistMono.variable, "font-sans", inter.variable)}
     >
       <body className="min-h-full flex flex-col"> <Providers>{children}</Providers></body>
     </html>

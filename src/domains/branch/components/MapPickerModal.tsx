@@ -18,7 +18,7 @@ interface MapPickerModalProps {
 
 const LeafletMap = dynamic(
   () => import('./LeafletMapComponent'),
-  { ssr: false, loading: () => <div className="w-full h-full flex items-center justify-center bg-gray-50"><Loader2 className="w-8 h-8 text-[#E8192C] animate-spin" /></div> }
+  { ssr: false, loading: () => <div className="w-full h-full flex items-center justify-center bg-gray-50"><Loader2 className="w-8 h-8 text-[#2A1238] animate-spin" /></div> }
 )
 
 export function MapPickerModal({ isOpen, onClose, onConfirm, initialLat, initialLng }: MapPickerModalProps) {
@@ -144,7 +144,7 @@ export function MapPickerModal({ isOpen, onClose, onConfirm, initialLat, initial
           <div className="flex-1 relative bg-gray-50">
             {/* Search Bar */}
             <div className="absolute top-4 left-4 right-4 z-[400]">
-              <div className="bg-white rounded-xl shadow-lg flex items-center px-4 border border-gray-100 focus-within:ring-2 focus-within:ring-[#F5A3AA] transition-all relative">
+              <div className="bg-white rounded-xl shadow-lg flex items-center px-4 border border-gray-100 focus-within:ring-2 focus-within:ring-[#C9B6DE] transition-all relative">
                 <Search className="w-5 h-5 text-gray-400 shrink-0" />
                 <input
                   type="text"
@@ -186,7 +186,7 @@ export function MapPickerModal({ isOpen, onClose, onConfirm, initialLat, initial
                 animate={{ y: [0, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
               >
-                <MapPin className="w-10 h-10 text-[#E8192C] fill-[#E8192C]" />
+                <MapPin className="w-10 h-10 text-[#2A1238] fill-[#2A1238]" />
               </motion.div>
               <div className="w-3 h-1 bg-black/20 rounded-full mx-auto mt-1 blur-[1px]" />
             </div>
@@ -211,7 +211,7 @@ export function MapPickerModal({ isOpen, onClose, onConfirm, initialLat, initial
             <Button
               onClick={handleConfirm}
               disabled={!address || isGeocoding}
-              className="w-full h-14 bg-[#E8192C] hover:bg-[#C0102A] text-white rounded-xl text-lg font-bold shadow-lg shadow-red-500/25 transition-all"
+              className="w-full h-14 bg-[#2A1238] hover:bg-[#1B0A26] text-white rounded-xl text-lg font-bold shadow-lg shadow-primary/25 transition-all"
             >
               <Check className="w-5 h-5 ml-2" />
               تأكيد هذا الموقع

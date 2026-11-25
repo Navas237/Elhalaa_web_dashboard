@@ -97,8 +97,8 @@ export function AddShopSheet({ isOpen, onClose, ownerId, onSuccess }: AddShopShe
               {/* Header */}
               <div className="px-6 pb-4 flex items-center justify-between border-b border-gray-100 shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#FDECEA] flex items-center justify-center">
-                    <Store className="w-5 h-5 text-[#E8192C]" />
+                  <div className="w-10 h-10 rounded-full bg-[#EBDDF7] flex items-center justify-center">
+                    <Store className="w-5 h-5 text-[#2A1238]" />
                   </div>
                   <h2 className="text-xl font-bold text-gray-900">إضافة فرع جديد</h2>
                 </div>
@@ -116,15 +116,15 @@ export function AddShopSheet({ isOpen, onClose, ownerId, onSuccess }: AddShopShe
                   {/* Shop Name */}
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-gray-800">
-                      اسم الفرع <span className="text-[#E8192C]">*</span>
+                      اسم الفرع <span className="text-[#2A1238]">*</span>
                     </label>
                     <input
                       {...register('name')}
                       placeholder="مثال: فرع المهندسين"
-                      className="w-full h-14 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#F5A3AA] focus:ring-4 focus:ring-[#FDECEA] transition-all"
+                      className="w-full h-14 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#C9B6DE] focus:ring-4 focus:ring-[#EBDDF7] transition-all"
                     />
                     {errors.name && (
-                      <p className="text-[#E8192C] text-xs font-semibold">{errors.name.message}</p>
+                      <p className="text-[#2A1238] text-xs font-semibold">{errors.name.message}</p>
                     )}
                   </div>
 
@@ -136,7 +136,7 @@ export function AddShopSheet({ isOpen, onClose, ownerId, onSuccess }: AddShopShe
                       <button
                         type="button"
                         onClick={() => setIsMapOpen(true)}
-                        className="w-full h-14 border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center gap-2 text-gray-500 hover:text-[#E8192C] hover:border-[#F5A3AA] hover:bg-[#FDECEA] transition-all"
+                        className="w-full h-14 border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center gap-2 text-gray-500 hover:text-[#2A1238] hover:border-[#C9B6DE] hover:bg-[#EBDDF7] transition-all"
                       >
                         <MapPin className="w-5 h-5" />
                         <span className="font-semibold">تحديد الموقع على الخريطة</span>
@@ -173,7 +173,7 @@ export function AddShopSheet({ isOpen, onClose, ownerId, onSuccess }: AddShopShe
                         <input
                           type="time"
                           {...register('opening_time')}
-                          className="w-full h-14 pl-4 pr-11 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-[#F5A3AA] focus:ring-4 focus:ring-[#FDECEA] transition-all"
+                          className="w-full h-14 pl-4 pr-11 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-[#C9B6DE] focus:ring-4 focus:ring-[#EBDDF7] transition-all"
                         />
                         <Clock className="w-5 h-5 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
                       </div>
@@ -185,7 +185,7 @@ export function AddShopSheet({ isOpen, onClose, ownerId, onSuccess }: AddShopShe
                         <input
                           type="time"
                           {...register('closing_time')}
-                          className="w-full h-14 pl-4 pr-11 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-[#F5A3AA] focus:ring-4 focus:ring-[#FDECEA] transition-all"
+                          className="w-full h-14 pl-4 pr-11 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-[#C9B6DE] focus:ring-4 focus:ring-[#EBDDF7] transition-all"
                         />
                         <Clock className="w-5 h-5 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
                       </div>
@@ -200,7 +200,7 @@ export function AddShopSheet({ isOpen, onClose, ownerId, onSuccess }: AddShopShe
                   type="submit"
                   form="add-shop-form"
                   disabled={isPending}
-                  className="w-full h-14 bg-[#E8192C] hover:bg-[#C0102A] text-white rounded-xl text-lg font-bold shadow-lg shadow-red-500/25 transition-all"
+                  className="w-full h-14 bg-[#2A1238] hover:bg-[#1B0A26] text-white rounded-xl text-lg font-bold shadow-lg shadow-primary/25 transition-all"
                 >
                   {isPending ? (
                     <>

@@ -73,7 +73,7 @@ export default function BarberTimelinePage() {
           <NotificationBellButton className="bg-white border border-slate-200 shadow-sm" />
           <Button
           size="icon"
-          className="rounded-full w-12 h-12 shadow-sm shrink-0 bg-[#E8192C] hover:bg-[#C0102A]"
+          className="rounded-full w-12 h-12 shadow-sm shrink-0 bg-[#2A1238] hover:bg-[#1B0A26]"
           onClick={() => setIsNewBookingOpen(true)}
           disabled={!staffMember}
         >

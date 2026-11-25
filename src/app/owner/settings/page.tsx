@@ -26,7 +26,7 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen bg-slate-50 pb-[90px] font-sans" dir="rtl">
       {/* Header Gradient */}
-      <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-br from-rose-500 via-primary to-orange-400 rounded-b-[40px] z-0" />
+      <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-br from-primary-light0 via-primary to-orange-400 rounded-b-[40px] z-0" />
       
       {/* Content */}
       <div className="relative z-10 pt-16 px-6">
@@ -122,7 +122,7 @@ export default function SettingsPage() {
         >
           <Button 
             variant="destructive" 
-            className="w-full h-14 rounded-2xl text-base font-bold bg-rose-50 hover:bg-rose-100 text-rose-600 border-0 shadow-none"
+            className="w-full h-14 rounded-2xl text-base font-bold bg-primary-light hover:bg-primary-light text-rose-600 border-0 shadow-none"
             onClick={logout}
           >
             <LogOut className="w-5 h-5 ml-2" />

@@ -7,7 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-kufi), var(--font-inter-fallback, 'Inter'), sans-serif;
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
 
@@ -56,19 +56,19 @@
 
 :root {
   /* Primary — Red */
-  --primary:          #E8192C;
+  --primary:          #2A1238;
   --primary-foreground: #FFFFFF;
-  --primary-dark:     #C0102A;
-  --primary-light:    #FDECEA;
-  --primary-border:   #F5A3AA;
+  --primary-dark:     #1B0A26;
+  --primary-light:    #EBDDF7;
+  --primary-border:   #C9B6DE;
 
   /* Teal */
-  --teal:             #5EC8C0;
-  --teal-light:       #E8F8F7;
-  --teal-dark:        #2FA8A0;
+  --teal:             #C6F04A;
+  --teal-light:       #F1FBD0;
+  --teal-dark:        #8FB82A;
 
   /* Neutrals */
-  --background:       #F7F8FA;
+  --background:       #F8F5FB;
   --foreground:       #1A1D2E;
   --card:             #FFFFFF;
   --card-foreground:  #1A1D2E;
@@ -76,7 +76,7 @@
   --popover-foreground: #1A1D2E;
   --border:           #E2E4E8;
   --input:            #F7F8FA;
-  --ring:             #E8192C;
+  --ring:             #8A5AB0;
   --muted:            #F0F1F3;
   --muted-foreground: #9EA3AE;
   --secondary:        #F0F1F3;
@@ -92,8 +92,8 @@
   --error:            #DC2626;
   --error-light:      #FEF2F2;
   --destructive:      #DC2626;
-  --info:             #5EC8C0;
-  --info-light:       #E8F8F7;
+  --info:             #8FB82A;
+  --info-light:       #F1FBD0;
 
   --radius: 0.75rem;
 }

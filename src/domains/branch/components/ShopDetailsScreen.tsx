@@ -189,7 +189,7 @@ export function ShopDetailsScreen({ shopId, ownerId, onBack }: ShopDetailsScreen
                     e.stopPropagation()
                     setIsAddPackageOpen(true)
                   }}
-                  className="bg-[#E8192C] hover:bg-[#C0102A] text-white rounded-lg h-9 px-3 font-semibold"
+                  className="bg-[#2A1238] hover:bg-[#1B0A26] text-white rounded-lg h-9 px-3 font-semibold"
                 >
                   + إضافة باقة
                 </Button>
@@ -222,7 +222,7 @@ export function ShopDetailsScreen({ shopId, ownerId, onBack }: ShopDetailsScreen
                             </div>
 
                             <div className="flex items-center gap-3 shrink-0">
-                              <div className="font-bold text-[#E8192C] text-left">
+                              <div className="font-bold text-[#2A1238] text-left">
                                 {svc.price} <span className="text-xs font-medium">ج.م</span>
                               </div>
 

@@ -167,7 +167,7 @@ export function EditPackageSheet({ shopId, service, open, onOpenChange }: EditPa
               <Button 
                 type="submit" 
                 disabled={isPending}
-                className="w-full h-14 bg-[#E8192C] hover:bg-[#C0102A] text-white rounded-xl text-lg font-bold transition-colors"
+                className="w-full h-14 bg-[#2A1238] hover:bg-[#1B0A26] text-white rounded-xl text-lg font-bold transition-colors"
               >
                 {isPending && <Loader2 className="w-5 h-5 ml-2 animate-spin" />}
                 حفظ التعديلات

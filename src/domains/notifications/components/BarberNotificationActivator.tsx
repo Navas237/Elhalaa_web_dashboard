@@ -118,7 +118,7 @@ export function BarberNotificationActivator() {
     <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-rose-50 text-[#E8192C]">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-light text-[#2A1238]">
             {isActive ? <BellRing className="h-5 w-5" /> : <Bell className="h-5 w-5" />}
           </div>
           <div className="min-w-0">
@@ -137,7 +137,7 @@ export function BarberNotificationActivator() {
         <Button
           type="button"
           size="lg"
-          className="h-11 shrink-0 rounded-xl bg-[#E8192C] px-4 text-sm font-bold hover:bg-[#C0102A]"
+          className="h-11 shrink-0 rounded-xl bg-[#2A1238] px-4 text-sm font-bold hover:bg-[#1B0A26]"
           disabled={!canActivate || isLoading || isBlocked}
           onClick={handleActivate}
         >

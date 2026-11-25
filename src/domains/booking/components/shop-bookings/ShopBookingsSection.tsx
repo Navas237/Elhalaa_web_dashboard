@@ -46,7 +46,7 @@ export function ShopBookingsSection({ shopId }: ShopBookingsSectionProps) {
         </div>
         <Button 
           size="icon" 
-          className="rounded-full w-9 h-9 shadow-sm shrink-0 bg-[#E8192C] hover:bg-[#C0102A]"
+          className="rounded-full w-9 h-9 shadow-sm shrink-0 bg-[#2A1238] hover:bg-[#1B0A26]"
           onClick={() => setIsNewBookingOpen(true)}
         >
           <Plus className="w-5 h-5" />

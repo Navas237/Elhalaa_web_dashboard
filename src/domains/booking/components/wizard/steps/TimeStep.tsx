@@ -103,7 +103,7 @@ export function TimeStep({ onNext, onBack }: TimeStepProps) {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-48 gap-3 text-rose-500 bg-rose-50 rounded-2xl border border-rose-100 p-6 text-center">
+      <div className="flex flex-col items-center justify-center h-48 gap-3 text-rose-500 bg-primary-light rounded-2xl border border-primary-light p-6 text-center">
         <AlertCircle className="w-8 h-8" />
         <p className="text-sm font-bold">حدث خطأ أثناء البحث</p>
         <p className="text-xs">{error.message}</p>

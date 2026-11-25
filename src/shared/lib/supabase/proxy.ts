@@ -18,13 +18,9 @@ export async function updateSession(request: NextRequest) {
           )
           supabaseResponse = NextResponse.next({ request })
           cookiesToSet.forEach(({ name, value, options }) => {
-            const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN
-            const cookieOptions = {
-              ...options,
-              ...(process.env.NODE_ENV === 'production' && rootDomain
-                ? { domain: `.${rootDomain}` }
-                : {}),
-            }
+            // Host-only cookie (no Domain attribute): a session on app.* is never sent to
+            // the admin host or to shop hosts.
+            const { domain: _ignored, ...cookieOptions } = options as Record<string, unknown>
             supabaseResponse.cookies.set(name, value, cookieOptions)
           })
         },

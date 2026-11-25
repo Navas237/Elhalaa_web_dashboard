@@ -155,7 +155,7 @@ export function NotificationBellButton({ className }: { className?: string }) {
         <Bell className="w-[22px] h-[22px]" />
       )}
       {showDot && (
-        <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white" />
+        <span className="absolute top-2 right-2 w-2 h-2 bg-primary-light0 rounded-full border-2 border-white" />
       )}
     </button>
   )

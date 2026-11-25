@@ -3,6 +3,18 @@ import { updateSession } from "@/shared/lib/supabase/proxy"
 
 const ROOT_DOMAIN = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "localhost:3000"
 
+// Platform admin host. Hard-to-guess name is only a speed bump, the real
+// protection is the server-side is_super_admin check in app/admin/layout.tsx.
+const ADMIN_SUBDOMAIN = (process.env.NEXT_PUBLIC_ADMIN_SUBDOMAIN || "hq-7m4x").toLowerCase()
+// Names that can never be a shop. Keep in sync with the customer app.
+const RESERVED_SUBDOMAINS = new Set(["www", "app", "admin", ADMIN_SUBDOMAIN, "api", "mail", "default"])
+
+function notFoundResponse(request: NextRequest, headers: Headers) {
+  const url = request.nextUrl.clone()
+  url.pathname = "/__not-found"
+  return NextResponse.rewrite(url, { status: 404, headers })
+}
+
 /**
  * استخراج الـ Subdomain من الـ Hostname
  * يدعم:
@@ -70,12 +82,28 @@ export async function proxy(request: NextRequest) {
   // =========================================================================
   // المسار 1: إدارة المنصة الرئيسية (Super Admin Domain: admin.domain.com)
   // =========================================================================
-  if (subdomain === "admin") {
+  if (subdomain === ADMIN_SUBDOMAIN) {
+    // Owner and barber screens do not exist on the admin host.
+    if (pathname.startsWith("/owner") || pathname.startsWith("/barber")) {
+      return notFoundResponse(request, response.headers)
+    }
+    if (pathname === "/login") return response
+    if (!user) return NextResponse.redirect(new URL("/login", request.url))
     if (!pathname.startsWith("/admin")) {
       url.pathname = `/admin${pathname === "/" ? "" : pathname}`
       return NextResponse.rewrite(url, { headers: response.headers })
     }
     return response
+  }
+
+  // The old "admin" host is retired. Reserved names never act as shops.
+  if (subdomain && RESERVED_SUBDOMAINS.has(subdomain) && subdomain !== "app") {
+    return notFoundResponse(request, response.headers)
+  }
+
+  // /admin only exists on the admin host.
+  if (pathname.startsWith("/admin")) {
+    return notFoundResponse(request, response.headers)
   }
 
   // =========================================================================
@@ -98,6 +126,11 @@ export async function proxy(request: NextRequest) {
       .single()
 
     const role = profile?.role
+
+    // Accounts that are not staff (for example a customer account) get nothing here.
+    if (role !== "owner" && role !== "manager" && role !== "barber") {
+      return notFoundResponse(request, response.headers)
+    }
 
     // لو فتح /login أو الصفحة الرئيسية يوجه للداشبورد المخصصة له
     if (pathname === "/login" || pathname === "/") {

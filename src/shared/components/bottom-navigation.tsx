@@ -110,7 +110,7 @@ export function BottomNavigation() {
               key={item.href} 
               href={item.href}
               className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-all duration-100 active:scale-[0.97] ${
-                isActive ? 'text-red-500' : 'text-slate-500 hover:text-slate-900'
+                isActive ? 'text-primary' : 'text-slate-500 hover:text-slate-900'
               }`}
             >
               <Icon 

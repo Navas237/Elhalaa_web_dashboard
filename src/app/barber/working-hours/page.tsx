@@ -60,7 +60,7 @@ export default function BarberWorkingHoursPage() {
   return (
     <div className="min-h-screen bg-slate-50 pb-[90px] font-sans" dir="rtl">
       {/* Header Gradient */}
-      <div className="fixed top-0 left-0 right-0 h-48 bg-gradient-to-br from-rose-500 via-primary to-orange-400 rounded-b-[40px] z-0" />
+      <div className="fixed top-0 left-0 right-0 h-48 bg-gradient-to-br from-primary-light0 via-primary to-orange-400 rounded-b-[40px] z-0" />
       
       {/* Content */}
       <div className="relative z-10 pt-16 px-4">
