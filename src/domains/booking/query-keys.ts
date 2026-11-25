@@ -12,4 +12,7 @@ export const bookingKeys = {
 
   availableDays: (shopId: string, staffId: string) => 
     [...bookingKeys.all, 'availableDays', shopId, staffId] as const,
+
+  blockedTimes: (staffId: string, date?: string) =>
+    [...bookingKeys.all, 'blockedTimes', staffId, date] as const,
 }

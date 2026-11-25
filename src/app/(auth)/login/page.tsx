@@ -18,8 +18,8 @@ export default function LoginPage() {
             <Scissors className="w-10 h-10" />
           </div>
           {/* <p className="text-sm font-medium text-slate-500">سجل دخولك لإدارة  بكل سهولة</p> */}
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">مرحباً بك في  صالونك مشمش</h1>
-          <p className="text-sm font-medium text-slate-500">سجل دخولك لإدارة صالونك بكل سهولة</p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">مرحباً بك في لوحة التحكم</h1>
+          <p className="text-sm font-medium text-slate-500">سجل دخولك لإدارة صالونك ومواعيدك بكل سهولة</p>
         </div>
 
         {/* Card for Form */}
@@ -30,7 +30,7 @@ export default function LoginPage() {
         {/* Footer Text */}
         <div className="mt-8 text-center animate-in fade-in duration-700 delay-300 fill-mode-both">
           <p className="text-xs font-medium text-slate-400">
-            © {new Date().getFullYear()} نظام مشمش لإدارة الصالونات
+            © {new Date().getFullYear()} نظام إدارة الصالونات والمواعيد
           </p>
         </div>
 

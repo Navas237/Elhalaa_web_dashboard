@@ -17,9 +17,16 @@ export async function updateSession(request: NextRequest) {
             request.cookies.set(name, value)
           )
           supabaseResponse = NextResponse.next({ request })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
+          cookiesToSet.forEach(({ name, value, options }) => {
+            const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN
+            const cookieOptions = {
+              ...options,
+              ...(process.env.NODE_ENV === 'production' && rootDomain
+                ? { domain: `.${rootDomain}` }
+                : {}),
+            }
+            supabaseResponse.cookies.set(name, value, cookieOptions)
+          })
         },
       },
     }

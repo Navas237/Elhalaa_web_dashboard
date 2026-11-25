@@ -17,13 +17,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "مشمش - نظام إدارة  والحجوزات",
-  description: " مشمش    إدارة والحجوز ات",
+  title: "لوحة التحكم — نظام إدارة الصالونات والحجوزات",
+  description: "نظام متكامل لإدارة الصالونات والفروع والحجوزات والموظفين",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true, 
     statusBarStyle: "default",
-    title: "مشمش",
+    title: "لوحة التحكم",
   },
   icons: {
     icon: "/pwa-icon.svg",

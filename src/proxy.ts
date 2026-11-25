@@ -1,75 +1,195 @@
 import { NextRequest, NextResponse } from "next/server"
 import { updateSession } from "@/shared/lib/supabase/proxy"
 
-const PUBLIC_ROUTES = ["/", "/login"]
-const OWNER_PREFIX = "/owner"
-const BARBER_PREFIX = "/barber"
-const OWNER_HOME = "/owner/dashboard"
-const BARBER_HOME = "/barber/timeline"
+const ROOT_DOMAIN = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "localhost:3000"
 
-type AppRole = "owner" | "barber"
+/**
+ * استخراج الـ Subdomain من الـ Hostname
+ * يدعم:
+ * - admin.localhost:3000 -> "admin"
+ * - salon1.localhost:3000 -> "salon1"
+ * - admin.yourdomain.com -> "admin"
+ * - salon1.yourdomain.com -> "salon1"
+ * - yourdomain.com أو localhost:3000 -> null
+ */
+export function extractSubdomain(request: NextRequest): string | null {
+  const host = request.headers.get("host") || ""
+  const hostname = host.split(":")[0]
 
-function isPublicRoute(pathname: string) {
-  return PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(route + '/'))
+  // Localhost development: [subdomain].localhost
+  if (hostname.endsWith(".localhost")) {
+    const sub = hostname.replace(".localhost", "").toLowerCase()
+    return sub && sub !== "www" ? sub : null
+  }
+
+  // Localhost development: [subdomain].localhost.com
+  if (hostname.endsWith(".localhost.com")) {
+    const sub = hostname.replace(".localhost.com", "").toLowerCase()
+    return sub && sub !== "www" ? sub : null
+  }
+
+  // Production domain: [subdomain].[rootDomain]
+  const cleanRoot = ROOT_DOMAIN.split(":")[0].toLowerCase()
+  if (hostname.endsWith(`.${cleanRoot}`)) {
+    const sub = hostname.replace(`.${cleanRoot}`, "").toLowerCase()
+    return sub && sub !== "www" ? sub : null
+  }
+
+  return null
 }
 
-function isOwnerRoute(pathname: string) {
-  return pathname.startsWith(OWNER_PREFIX)
-}
+/**
+ * إنشاء رابط للسب-دومين المستهدف
+ */
+export function getSubdomainUrl(request: NextRequest, targetSubdomain: string, targetPath: string): URL {
+  const host = request.headers.get("host") || ""
+  const port = host.includes(":") ? `:${host.split(":")[1]}` : ""
+  const hostname = host.split(":")[0]
+  const protocol = request.nextUrl.protocol
 
-function isBarberRoute(pathname: string) {
-  return pathname.startsWith(BARBER_PREFIX)
+  let baseDomain = ""
+  if (hostname.endsWith(".localhost.com")) {
+    baseDomain = "localhost.com"
+  } else if (hostname.endsWith(".localhost")) {
+    baseDomain = "localhost"
+  } else {
+    baseDomain = ROOT_DOMAIN.split(":")[0]
+  }
+
+  return new URL(`${protocol}//${targetSubdomain}.${baseDomain}${port}${targetPath}`)
 }
 
 export async function proxy(request: NextRequest) {
-  const pathname = request.nextUrl.pathname
+  const url = request.nextUrl.clone()
+  const pathname = url.pathname
+  const subdomain = extractSubdomain(request)
 
-  // updateSession refreshes the session cookies AND returns the already
-  // authenticated user, so no second getUser() round-trip is needed here.
+  // 1. تحديث الجلسة ومزامنة الكوكيز
   const { response, supabase, user } = await updateSession(request)
 
-  // Guest أو Rate Limit Error — treat as no user
-  if (!user) {
-    if (isPublicRoute(pathname)) {
-      return response
+  // =========================================================================
+  // المسار 1: إدارة المنصة الرئيسية (Super Admin Domain: admin.domain.com)
+  // =========================================================================
+  if (subdomain === "admin") {
+    if (!pathname.startsWith("/admin")) {
+      url.pathname = `/admin${pathname === "/" ? "" : pathname}`
+      return NextResponse.rewrite(url, { headers: response.headers })
     }
+    return response
+  }
+
+  // =========================================================================
+  // المسار 2: بوابة إدارة الأونر والموظفين (App Subdomain: app.localhost.com / app.domain.com)
+  // =========================================================================
+  if (subdomain === "app") {
+    // إذا لم يكن مسجل دخول، يسمح له بصفحة الدخول فقط
+    if (!user) {
+      if (pathname === "/login") {
+        return response
+      }
+      return NextResponse.redirect(new URL("/login", request.url))
+    }
+
+    // قراءة رتبة المستخدم المسجل
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single()
+
+    const role = profile?.role
+
+    // لو فتح /login أو الصفحة الرئيسية يوجه للداشبورد المخصصة له
+    if (pathname === "/login" || pathname === "/") {
+      const target = (role === "owner" || role === "manager") ? "/owner/dashboard" : "/barber/timeline"
+      return NextResponse.redirect(new URL(target, request.url))
+    }
+
+    // حماية مسارات الأونر: الحلاق لا يدخل على /owner
+    if (pathname.startsWith("/owner") && role !== "owner" && role !== "manager") {
+      return NextResponse.redirect(new URL("/barber/timeline", request.url))
+    }
+
+    // جميع صفحات /owner و /barber تعمل هنا مباشرة وبدون rewrite
+    return response
+  }
+
+  // =========================================================================
+  // المسار 3: صالون محدد للعملاء والجمهور (Tenant Subdomain: [salon].domain.com)
+  // =========================================================================
+  if (subdomain) {
+    // إذا حاول الأونر أو الحلاق فتح الداشبورد من سب دومين الكلاينت، نوجهه تلقائياً لبوابة app
+    if (pathname.startsWith("/owner") || pathname.startsWith("/barber")) {
+      return NextResponse.redirect(getSubdomainUrl(request, "app", pathname))
+    }
+
+    // المسارات المفتوحة للعملاء والجمهور
+    const isPublicSubdomainRoute =
+      pathname === "/" ||
+      pathname === "/login" ||
+      pathname === "/join" ||
+      pathname.startsWith("/client")
+
+    if (!user) {
+      if (isPublicSubdomainRoute) {
+        if (!pathname.startsWith(`/tenant/${subdomain}`)) {
+          url.pathname = `/tenant/${subdomain}${pathname === "/" ? "" : pathname}`
+          return NextResponse.rewrite(url, { headers: response.headers })
+        }
+        return response
+      }
+      return NextResponse.redirect(new URL("/login", request.url))
+    }
+
+    // إذا كان المستخدم مسجل دخول كأونر أو حلاق وفتح /login، نوجهه للـ app
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single()
+
+    const role = profile?.role
+    if (role === "owner" || role === "manager" || role === "barber") {
+      const target = (role === "owner" || role === "manager") ? "/owner/dashboard" : "/barber/timeline"
+      if (pathname === "/login") {
+        return NextResponse.redirect(getSubdomainUrl(request, "app", target))
+      }
+    }
+
+    // Rewrite لواجهات العميل والحجز الخاصة بهذا الصالون
+    if (!pathname.startsWith(`/tenant/${subdomain}`)) {
+      url.pathname = `/tenant/${subdomain}${pathname === "/" ? "" : pathname}`
+      return NextResponse.rewrite(url, { headers: response.headers })
+    }
+
+    return response
+  }
+
+  // =========================================================================
+  // المسار 4: الدومين الرئيسي (Root Platform Domain: domain.com أو localhost:3000)
+  // =========================================================================
+  const isPublicRootRoute = pathname === "/" || pathname === "/login"
+
+  if (!user) {
+    if (isPublicRootRoute) return response
     return NextResponse.redirect(new URL("/login", request.url))
   }
 
-  // جيب الـ Role
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single()
-
-  if (profileError || !profile) {
-    if (isPublicRoute(pathname)) return response
-    return NextResponse.redirect(new URL("/login", request.url))
-  }
-
-  const role = profile.role as AppRole
-
-  if (role !== "owner" && role !== "barber") {
-    if (isPublicRoute(pathname)) return response
-    return NextResponse.redirect(new URL("/login", request.url))
-  }
-
-  // لو مسجل دخول وفتح login أو root
+  // توجيه المستخدم المسجل حسب رتبته
   if (pathname === "/login" || pathname === "/") {
-    return NextResponse.redirect(
-      new URL(role === "owner" ? OWNER_HOME : BARBER_HOME, request.url)
-    )
-  }
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single()
 
-  // Owner مش يدخل barber routes
-  if (role === "owner" && isBarberRoute(pathname)) {
-    return NextResponse.redirect(new URL(OWNER_HOME, request.url))
-  }
-
-  // Barber مش يدخل owner routes
-  if (role === "barber" && isOwnerRoute(pathname)) {
-    return NextResponse.redirect(new URL(BARBER_HOME, request.url))
+    const role = profile?.role
+    if (role === "owner" || role === "manager") {
+      return NextResponse.redirect(new URL("/owner/dashboard", request.url))
+    }
+    if (role === "barber") {
+      return NextResponse.redirect(new URL("/barber/timeline", request.url))
+    }
   }
 
   return response
@@ -77,9 +197,9 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/",
-    "/login",
-    "/owner/:path*",
-    "/barber/:path*",
+    /*
+     * استثناء ملفات Next.js الثابتة والصور ومسارات الـ API
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico|manifest.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 }

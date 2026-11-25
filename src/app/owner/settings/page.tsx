@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { useAuth } from '@/domains/auth/hooks/useAuth'
 import { LogOut, User, Mail, ShieldCheck, Loader2 } from 'lucide-react'
 import { Button } from '@/shared/components/ui/button'
+import { SalonBrandingSettings } from '@/domains/tenant/components/SalonBrandingSettings'
 
 export default function SettingsPage() {
   const { user, isInitializing, logout } = useAuth()
@@ -109,6 +110,9 @@ export default function SettingsPage() {
             </div>
           </div>
         </motion.div>
+
+        {/* Salon Branding & Home Page Settings */}
+        <SalonBrandingSettings ownerId={user.id} />
 
         {/* Action Buttons */}
         <motion.div 
