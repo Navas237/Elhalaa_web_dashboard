@@ -7,7 +7,7 @@ const ROOT_DOMAIN = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "localhost:3000"
 // protection is the server-side is_super_admin check in app/admin/layout.tsx.
 const ADMIN_SUBDOMAIN = (process.env.NEXT_PUBLIC_ADMIN_SUBDOMAIN || "hq-7m4x").toLowerCase()
 // Names that can never be a shop. Keep in sync with the customer app.
-const RESERVED_SUBDOMAINS = new Set(["www", "app", "admin", ADMIN_SUBDOMAIN, "api", "mail", "default"])
+const RESERVED_SUBDOMAINS = new Set(["www", "app", "admin", ADMIN_SUBDOMAIN, "api", "mail", "default", "auth"])
 
 function notFoundResponse(request: NextRequest, headers: Headers) {
   const url = request.nextUrl.clone()
