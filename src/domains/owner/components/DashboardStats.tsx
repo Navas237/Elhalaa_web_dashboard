@@ -14,10 +14,10 @@ export function DashboardStats({ summary }: DashboardStatsProps) {
       <Card className="border-slate-200 py-0  h-[100px] shadow-sm rounded-xl overflow-hidden ">
         <CardContent className="p-3 flex flex-col justify-start  h-full ">
           <div className="flex justify-between items-start mb-1.5">
-            <div className="p-1.5 bg-indigo-50 rounded-lg">
-              <Calendar className="w-[18px] h-[18px] text-indigo-600" />
+            <div className="p-1.5 bg-primary-light rounded-lg">
+              <Calendar className="w-[18px] h-[18px] text-primary" />
             </div>
-            <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full">
+            <span className="text-[10px] font-medium text-success bg-success-light px-1.5 py-0.5 rounded-full">
               اليوم
             </span>
           </div>
@@ -34,8 +34,8 @@ export function DashboardStats({ summary }: DashboardStatsProps) {
       <Card className="border-slate-200 py-0  h-[100px] shadow-sm rounded-xl overflow-hidden">
         <CardContent className="p-3 flex flex-col justify-start h-full">
           <div className="flex justify-between items-start mb-1.5">
-            <div className="p-1.5 bg-emerald-50 rounded-lg">
-              <CircleDollarSign className="w-[18px] h-[18px] text-emerald-600" />
+            <div className="p-1.5 bg-success-light rounded-lg">
+              <CircleDollarSign className="w-[18px] h-[18px] text-success" />
             </div>
           </div>
           <div>
@@ -52,8 +52,8 @@ export function DashboardStats({ summary }: DashboardStatsProps) {
       <Card className="border-slate-200  py-0  h-[100px]  shadow-sm rounded-xl overflow-hidden">
         <CardContent className="p-3 flex flex-col justify-start h-full">
           <div className="flex justify-between items-start mb-1.5">
-            <div className="p-1.5 bg-blue-50 rounded-lg">
-              <Users className="w-[18px] h-[18px] text-blue-600" />
+            <div className="p-1.5 bg-primary-light rounded-lg">
+              <Users className="w-[18px] h-[18px] text-primary" />
             </div>
             <span className="text-[10px] font-medium text-slate-500">
               إجمالي {summary.total_barbers}
@@ -72,8 +72,8 @@ export function DashboardStats({ summary }: DashboardStatsProps) {
       <Card className="border-slate-200  py-0  h-[100px]  shadow-sm rounded-xl overflow-hidden">
         <CardContent className="p-3 flex flex-col justify-start h-full">
           <div className="flex justify-between items-start mb-1.5">
-            <div className="p-1.5 bg-orange-50 rounded-lg">
-              <Clock className="w-[18px] h-[18px] text-orange-600" />
+            <div className="p-1.5 bg-warning-light rounded-lg">
+              <Clock className="w-[18px] h-[18px] text-warning" />
             </div>
           </div>
           <div>

@@ -14,12 +14,12 @@ interface BookingCardProps {
 }
 
 const statusColors: Record<BookingStatus, string> = {
-  pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  confirmed: "bg-green-100 text-green-800 border-green-200",
-  waiting_time: "bg-blue-100 text-blue-800 border-blue-200",
-  completed: "bg-gray-100 text-gray-800 border-gray-200",
-  cancelled: "bg-red-100 text-red-800 border-red-200",
-  no_show: "bg-red-50 text-red-700 border-red-200"
+  pending: "bg-primary-light text-primary border-transparent",
+  confirmed: "bg-success-light text-success border-transparent",
+  waiting_time: "bg-warning-light text-warning border-transparent",
+  completed: "bg-teal-light text-teal-dark border-transparent",
+  cancelled: "bg-muted text-muted-foreground border-transparent",
+  no_show: "bg-muted text-muted-foreground/70 border-transparent"
 }
 
 const statusLabels: Record<BookingStatus, string> = {
@@ -65,7 +65,7 @@ export function BookingCard({ booking, onClick }: BookingCardProps) {
         </div>
 
         <div className="flex items-center gap-4 text-xs text-muted-foreground bg-muted/30 p-2 rounded-md mt-1">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" dir="ltr">
             <Clock className="h-3 w-3" />
             <span>{timeString}</span>
           </div>
@@ -75,7 +75,7 @@ export function BookingCard({ booking, onClick }: BookingCardProps) {
           </div>
           <div className="flex items-center gap-1">
             <MapPin className="h-3 w-3" />
-            <span className="truncate max-w-[80px]">{booking.shopName}</span>
+            <span className="truncate max-w-[150px]">{booking.shopName}</span>
           </div>
         </div>
       </Card>

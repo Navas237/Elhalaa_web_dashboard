@@ -26,7 +26,7 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen bg-slate-50 pb-[90px] font-sans" dir="rtl">
       {/* Header Gradient */}
-      <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-br from-primary-light0 via-primary to-orange-400 rounded-b-[40px] z-0" />
+      <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-br from-primary-dark via-primary to-primary rounded-b-[40px] z-0" />
       
       {/* Content */}
       <div className="relative z-10 pt-16 px-6">
@@ -98,13 +98,13 @@ export default function SettingsPage() {
             <div className="w-full h-px bg-slate-50" />
 
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-5 h-5 text-orange-500" />
+              <div className="w-12 h-12 rounded-2xl bg-primary-light flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-5 h-5 text-primary" />
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-400 mb-0.5">الصلاحية</p>
                 <p className="text-sm font-semibold text-slate-900 capitalize">
-                  {user.role}
+                  {user.role === 'owner' ? 'مالك الصالون' : user.role === 'manager' ? 'مدير الصالون' : 'حلاق'}
                 </p>
               </div>
             </div>

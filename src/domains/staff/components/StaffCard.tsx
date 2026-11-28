@@ -47,7 +47,7 @@ export function StaffCard({ staff, onClick }: StaffCardProps) {
               
               <div className="flex items-center gap-1.5 shrink-0">
                 <MapPin className="h-3.5 w-3.5" />
-                <span className="truncate max-w-[120px]">{staff.shopName || 'الفرع'}</span>
+                <span className="truncate max-w-[200px]">{staff.shopName || 'الفرع'}</span>
               </div>
 
               {staff.phone && (
